@@ -1,0 +1,53 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="GrazieInspection" enabled="false" level="GRAMMAR_ERROR" enabled_by_default="false" />
+    <inspection_tool class="PyCallingNonCallableInspection" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="PyDefaultArgumentInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E117" />
+          <option value="E501" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+          <option value="N803" />
+          <option value="N801" />
+          <option value="N813" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="list.len" />
+          <option value="quantumfabricator.states.game.Game" />
+          <option value="src.gui.add_assignment_window.AddAssignmentWindow.calendar" />
+          <option value="src.gui.add_assignment_window.AddAssignmentWindow.schedule_card" />
+          <option value="src.gui.buttons.LeftArrowButton.schedule_card" />
+          <option value="src.gui.buttons.LeftArrowButton.calendar" />
+          <option value="src.gui.buttons.RightArrowButton.schedule_card" />
+          <option value="src.gui.buttons.RightArrowButton.calendar" />
+          <option value="src.gui.buttons.AddAssignmentButton.open_second_window" />
+          <option value="src.gui.buttons.LeftArrowButton.previous_schedule_card" />
+          <option value="src.gui.buttons.LeftArrowButton.next_schedule_card" />
+          <option value="src.gui.buttons.RightArrowButton.previous_schedule_card" />
+          <option value="src.gui.buttons.RightArrowButton.next_schedule_card" />
+          <option value="src.gui.add_assignment_window.AddAssignmentWindow.previous_schedule_card" />
+          <option value="src.gui.add_assignment_window.AddAssignmentWindow.next_schedule_card" />
+          <option value="user_info" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
+    </inspection_tool>
+  </profile>
+</component>
