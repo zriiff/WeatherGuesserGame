@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #5e5e5e;
+    }
+
+    header {
+      margin: 0;
+      height: 80px;
+      width: auto;
+      background-color: #3b3b3b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    header .title {
+      margin: 0;
+      color: white;
+      font-family: "Rubik", sans-serif;
+      font-weight: 800;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    #main {
+      position: relative;
+      width: auto;
+      height: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #main .game-holder {
+      width: 80%;
+      height: 80%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    #main .game-holder .game-left {
+      display: flex;
+      justify-content: center;
+    }
+
+    #main .game-holder .game-right {
+      display: flex;
+      justify-content: center;
+    }
+
+    #main .game-holder .place {
+      margin: 0;
+      font-family: "Rubik", sans-serif;
+      font-weight: 500;
+      font-size: 50px;
+    }
+  </style>
+  <title>Title</title>
+</head>
+<body>
+  <header>
+    <h1 class="title">Weather Game</h1>
+  </header>
+  <div id="main">
+    <div class="game-holder">
+      <div class="game-left">
+        <p class="place">XXXXXXXX</p>
+      </div>
+      <div class="game-right">
+        <p class="place">XXXXXXXX</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const main = document.getElementById("main");
+    const header = document.querySelector("header");
+    main.style.height = `${window.innerHeight - header.offsetHeight}px`;
+  </script>
+</body>
+</html>
