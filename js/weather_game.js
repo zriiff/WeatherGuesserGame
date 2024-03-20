@@ -1,8 +1,31 @@
+/*
+Sources
+  https://www.geonames.org/ - https://download.geonames.org/export/dump/
+  https://openweathermap.org/
+ */
+
 const API_KEY = "5c26a30700394a02465c639499c61e42"
 const UNITS = "imperial"
 
 const DISPLAY1 = document.querySelector("#main .game-holder .game-place.one .place-name");
 const DISPLAY2 = document.querySelector("#main .game-holder .game-place.two .place-name");
+
+const TEMP_DISPLAY1 = document.querySelector("#main .game-holder .game-place.one .temperature");
+const TEMP_DISPLAY2 = document.querySelector("#main .game-holder .game-place.two .temperature");
+
+const DISPLAY_SETTINGS = {
+    transition: DISPLAY1.style.transition,
+    marginTop: {
+        default: DISPLAY1.style.marginTop,
+        animated: "30px"
+    },
+    fontSize: {
+        default: DISPLAY1.style.fontSize,
+        animated: "42px"
+    }
+}
+
+const TEMPERATURE_ANIMATION_TIME = 1500;
 
 function csvTextToList(text) {
     const lines = text.split("\n");
@@ -40,10 +63,8 @@ async function getWeatherTemp(place) {
 }
 
 function displayText(city1, city2) {
-    const display1 = document.querySelector("#main .game-holder .game-place.one .place-name");
-    display1.innerHTML = city1;
-    const display2 = document.querySelector("#main .game-holder .game-place.two .place-name");
-    display2.innerHTML = city2;
+    DISPLAY1.innerHTML = city1;
+    DISPLAY2.innerHTML = city2;
 }
 
 async function waitForUserInput() {
@@ -65,31 +86,91 @@ async function waitForUserInput() {
     });
 }
 
-async function animateGuess() {
+async function animateGame(temp1, temp2) {
     return new Promise((resolve) => {
-        const handleTransitionEnd = (event) => {
+        function handleTransitionEnd(event) {
             if (event.target === DISPLAY1 || event.target === DISPLAY2) {
                 event.target.removeEventListener("transitionend", handleTransitionEnd);
-                resolve();
+                displayTemperature(temp1, temp2);
             }
         }
+
+        function displayTemperature(temp1, temp2) {
+            let lastTimestamp = null;
+            let accumulatedTemp = 0;
+            const endTemp = Math.max(Math.abs(temp1), Math.abs(temp2));
+            const step = (timestamp) => {
+                if (lastTimestamp == null) {
+                    lastTimestamp = timestamp
+                }
+                const deltaTime = timestamp - lastTimestamp;
+                lastTimestamp = timestamp
+                accumulatedTemp += endTemp / TEMPERATURE_ANIMATION_TIME * deltaTime;
+                if (accumulatedTemp > Math.abs(temp1)) {
+                    TEMP_DISPLAY1.innerHTML = "<p>" + temp1.toFixed(2) + "°F<p/>";
+                    TEMP_DISPLAY1.querySelector("p")
+                        .style.fontSize = Math.round(40 + (100 - 40) / endTemp * temp1) + "px";
+                } else {
+                    let printTemp = (accumulatedTemp * (temp1 / Math.abs(temp1))).toFixed(2);
+                    TEMP_DISPLAY1.innerHTML = "<p>" + printTemp + "°F<p/>";
+                    TEMP_DISPLAY1.querySelector("p")
+                        .style.fontSize = Math.round(40 + (100 - 40) / endTemp * accumulatedTemp) + "px";
+                }
+
+                if (accumulatedTemp > Math.abs(temp2)) {
+                    TEMP_DISPLAY2.innerHTML = "<p>" + temp2.toFixed(2) + "°F<p/>";
+                    TEMP_DISPLAY2.querySelector("p")
+                        .style.fontSize = Math.round(40 + (100 - 40) / endTemp * temp2) + "px";
+                } else {
+                    let printTemp = (accumulatedTemp * (temp2 / Math.abs(temp2))).toFixed(2);
+                    TEMP_DISPLAY2.innerHTML = "<p>" + printTemp + "°F<p/>";
+                    TEMP_DISPLAY2.querySelector("p")
+                        .style.fontSize = Math.round(40 + (100 - 40) / endTemp * accumulatedTemp) + "px";
+                }
+
+                if (accumulatedTemp < endTemp) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+            window.requestAnimationFrame(step);
+            setTimeout(() => {
+                resolve();
+            }, TEMPERATURE_ANIMATION_TIME + 1000);
+        }
+
         DISPLAY1.addEventListener("transitionend", handleTransitionEnd);
         DISPLAY2.addEventListener("transitionend", handleTransitionEnd);
-        DISPLAY1.style.marginTop = "30px";
-        DISPLAY2.style.marginTop = "30px";
-        DISPLAY1.style.fontSize = "42px";
-        DISPLAY2.style.fontSize = "42px";
+        DISPLAY1.style.marginTop = DISPLAY_SETTINGS.marginTop.animated;
+        DISPLAY2.style.marginTop = DISPLAY_SETTINGS.marginTop.animated;
+        DISPLAY1.style.fontSize = DISPLAY_SETTINGS.fontSize.animated;
+        DISPLAY2.style.fontSize = DISPLAY_SETTINGS.fontSize.animated;
     })
+}
+
+function resetGame() {
+    DISPLAY1.style.marginTop = DISPLAY_SETTINGS.marginTop.default;
+    DISPLAY2.style.marginTop = DISPLAY_SETTINGS.marginTop.default;
+    DISPLAY1.style.fontSize = DISPLAY_SETTINGS.fontSize.default;
+    DISPLAY2.style.fontSize = DISPLAY_SETTINGS.fontSize.default;
+    TEMP_DISPLAY1.innerHTML = "";
+    TEMP_DISPLAY2.innerHTML = "";
 }
 
 async function playGame(c) {
     let score = 0;
     let running = true;
     while (running) {
+        resetGame()
         let cities = c;
         const place1 = cities[Math.floor(Math.random() * cities.length)];
         const city1Info = await getWeatherTemp(place1);
-        cities = cities.slice(0, cities.indexOf(place1)).concat(cities.slice(cities.indexOf(place1) + 1));
+        let newCities = []
+        cities.forEach((value) => {
+            if (value["country"] !== place1["country"]) {
+                newCities.push(value);
+            }
+        })
+        cities = newCities;
         const place2 = cities[Math.floor(Math.random() * cities.length)];
         const city2Info = await getWeatherTemp(place2);
 
@@ -97,13 +178,9 @@ async function playGame(c) {
             placeToString(place1).replace(",", ",<br/>"),
             placeToString(place2).replace(",", ",<br/>")
         );
-        // console.log(placeToString(place1));
-        // console.log(city1Info);
-        // console.log(placeToString(place2));
-        // console.log(city2Info);
 
         const num = await waitForUserInput();
-        await animateGuess()
+        await animateGame(city1Info["temperature"], city2Info["temperature"])
         if (num === 1) {
             if (city1Info["temperature"] >= city2Info["temperature"]) {
                 console.log(`You win! (${city1Info["temperature"]}°F > ${city2Info["temperature"]}°F)\n`);
@@ -125,12 +202,7 @@ async function playGame(c) {
             }
         }
     }
-    gameOver();
     return score;
-}
-
-function gameOver() {
-    displayText("XXXXXXXXX", "XXXXXXXXX");
 }
 
 async function main() {
@@ -140,3 +212,20 @@ async function main() {
 }
 
 main();
+
+// async function testing() {
+//     const cities = await getPlaces();
+//     for (let city of cities) {
+//         console.log(placeToString(city));
+//         const weatherTemp = await new Promise((resolve) => {
+//             getWeatherTemp(city)
+//                 .then((w_t) => {
+//                     console.log(w_t);
+//                     setTimeout(() => {
+//                         resolve(w_t);
+//                     }, 1010);
+//                 })
+//         })
+//
+//     }
+// }

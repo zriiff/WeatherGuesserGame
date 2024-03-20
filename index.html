@@ -39,18 +39,35 @@
       width: auto;
       height: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 20px;
+    }
+
+    #main .description {
+      margin: 0;
+      font-size: 24px;
+      color: #CFDBD5;
+      font-family: "Rubik", sans-serif;
+      font-weight: 500;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    #main .description strong {
+      font-weight: 700;
+      font-size: 26px;
     }
 
     #main .game-holder {
       display: flex;
       align-items: center;
+      margin-bottom: 40px;
     }
 
     #main .game-holder .game-place {
-      height: 650px;
-      width: 550px;
+      height: 585px;
+      width: 495px;
       background-color: #434543;
       border-radius: 10px;
       display: flex;
@@ -60,27 +77,34 @@
     }
 
     #main .game-holder .game-place .place-name {
-      margin-top: 225px;
-      margin-left: 40px;
-      width: 510px;
-      font-size: 60px;
+      margin: 203px 0 0 36px;
+      width: 459px;
+      font-size: 54px;
       color: #CFDBD5;
       font-family: "Rubik", sans-serif;
       font-weight: 700;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-      transition: margin-top 1s ease, font-size 1s ease;
+      transition: margin-top 500ms ease, font-size 500ms ease;
+    }
+
+    #main .game-holder .game-place .temperature p {
+      margin: 0;
+      color: #CFDBD5;
+      font-family: "Rubik", sans-serif;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     }
 
     #main .game-holder .game-place button {
       width: 60%;
-      padding: 30px 0;
-      margin: 20px 20px 90px 20px;
+      padding: 27px 0;
+      margin: 18px 18px 81px 18px;
       color: #1E1E1E;
       text-decoration: none;
       border: none;
       background-color: #CFDBD5;
-      border-radius: 30px;
-      font-size: 36px;
+      border-radius: 27px;
+      font-size: 32px;
       font-family: "Rubik", sans-serif;
       font-weight: 700;
       box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
@@ -93,7 +117,7 @@
 
     #main .game-holder .separator {
       width: 2px;
-      height: 625px;
+      height: 563px;
       margin: 10px 36px;
       background-color: #CFDBD5;
       display: flex;
@@ -111,17 +135,18 @@
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     }
   </style>
-  <title>Title</title>
+  <title>Weather Game</title>
 </head>
 <body>
   <header>
     <h1 class="title">Weather Game</h1>
   </header>
   <div id="main">
+    <p class="description">Guess which city <strong>currently</strong> has a higher temperature</p>
     <div class="game-holder">
       <div class="game-place one">
         <p class="place-name">Loading...</p>
-        <div class="spacing"></div>
+        <div class="temperature"></div>
         <button>Option 1</button>
       </div>
       <div class="separator">
@@ -129,7 +154,7 @@
       </div>
       <div class="game-place two">
         <p class="place-name">Loading...</p>
-        <div class="spacing"></div>
+        <div class="temperature"></div>
         <button>Option 2</button>
       </div>
     </div>
