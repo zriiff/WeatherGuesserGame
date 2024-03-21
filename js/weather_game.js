@@ -13,6 +13,10 @@ const DISPLAY2 = document.querySelector("#main .game-holder .game-place.two .pla
 const TEMP_DISPLAY1 = document.querySelector("#main .game-holder .game-place.one .temperature");
 const TEMP_DISPLAY2 = document.querySelector("#main .game-holder .game-place.two .temperature");
 
+const OVERLAY = document.querySelector("#main .overlay");
+const OVERLAY_SCORE_DISPLAY = document.querySelector("#main .overlay .gameover-container .score-display strong");
+const OVERLAY_PLAY_AGAIN_BUTTON = document.querySelector("#main .overlay .gameover-container .play-again");
+
 const DISPLAY_SETTINGS = {
     transition: DISPLAY1.style.transition,
     marginTop: {
@@ -202,30 +206,27 @@ async function playGame(c) {
             }
         }
     }
+    gameover(score);
     return score;
+}
+
+function gameover(score) {
+    function playAgain() {
+        OVERLAY.style.display = "none"
+        displayText("Loading...", "Loading...");
+        main();
+        OVERLAY_PLAY_AGAIN_BUTTON.removeEventListener("click", playAgain);
+    }
+    OVERLAY.style.display = "flex"
+    OVERLAY_SCORE_DISPLAY.innerHTML = score
+    OVERLAY_PLAY_AGAIN_BUTTON.addEventListener("click", playAgain)
 }
 
 async function main() {
     const cities = await getPlaces();
     const score = await playGame(cities);
-    console.log(`score: ${score}`);
+    console.log("Score: " + score)
+    return true;
 }
 
 main();
-
-// async function testing() {
-//     const cities = await getPlaces();
-//     for (let city of cities) {
-//         console.log(placeToString(city));
-//         const weatherTemp = await new Promise((resolve) => {
-//             getWeatherTemp(city)
-//                 .then((w_t) => {
-//                     console.log(w_t);
-//                     setTimeout(() => {
-//                         resolve(w_t);
-//                     }, 1010);
-//                 })
-//         })
-//
-//     }
-// }
