@@ -9,3 +9,9 @@ This code is available at [repository on github](https://github.com/zriiff/CSPCr
 
 ## Requirements
 A search engine
+
+## Execution
+Open the `index.html`
+
+## Troubleshooting
+make sure to not rearange the contents of the website (js, assets, etc.)
