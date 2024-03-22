@@ -22,5 +22,13 @@ Then in your search engine, go to the website [localhost:8080](http://localhost:
 
 
 ## Troubleshooting
-make sure to not rearange the contents of the website (js, assets, etc.)
+Make sure to not rearange the contents of the website (js, assets, etc.)
+Be sure to run the terminal command while inside the directory containing index.html. It will not work if you try and run this from any other directory.
 
+## Authors
+Zach Riiff
+
+## Bibliography
+GeoNames - [https://www.geonames.org/](https://www.geonames.org/) - [https://download.geonames.org/export/dump/](https://download.geonames.org/export/dump/)
+
+OpenWeather - [https://openweathermap.org/](https://openweathermap.org/)
