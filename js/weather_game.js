@@ -1,9 +1,3 @@
-/*
-Sources
-  https://www.geonames.org/ - https://download.geonames.org/export/dump/
-  https://openweathermap.org/
- */
-
 const API_KEY = "5c26a30700394a02465c639499c61e42"
 const UNITS = "imperial"
 
@@ -56,14 +50,18 @@ function placeToString(place) {
 }
 
 async function getWeatherTemp(place) {
-    const locationRequest = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${placeToString(place)}&limit=${1}&appid=${API_KEY}`);
-    const locationRequestJson= await locationRequest.json();
-    const location = [locationRequestJson[0]['lat'], locationRequestJson[0]['lon']];
-    const weatherRequest = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location[0]}&lon=${location[1]}&units=${UNITS}&appid=${API_KEY}`);
-    const weatherRequestJson = await weatherRequest.json();
-    const weather = weatherRequestJson["weather"][0]["description"];
-    const temperature = weatherRequestJson["main"]["temp"];
-    return {weather: weather, temperature: temperature};
+    try {
+        const locationRequest = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${placeToString(place)}&limit=${1}&appid=${API_KEY}`);
+        const locationRequestJson = await locationRequest.json();
+        const location = [locationRequestJson[0]['lat'], locationRequestJson[0]['lon']];
+        const weatherRequest = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location[0]}&lon=${location[1]}&units=${UNITS}&appid=${API_KEY}`);
+        const weatherRequestJson = await weatherRequest.json();
+        const weather = weatherRequestJson["weather"][0]["description"];
+        const temperature = weatherRequestJson["main"]["temp"];
+        return {weather: weather, temperature: temperature};
+    } catch (e) {
+        return null;
+    }
 }
 
 function displayText(city1, city2) {
@@ -168,6 +166,9 @@ async function playGame(c) {
         let cities = c;
         const place1 = cities[Math.floor(Math.random() * cities.length)];
         const city1Info = await getWeatherTemp(place1);
+        if (city1Info == null) {
+            alert("Error loading weather data, something is wrong with the API.");
+        }
         let newCities = []
         cities.forEach((value) => {
             if (value["country"] !== place1["country"]) {
@@ -177,6 +178,9 @@ async function playGame(c) {
         cities = newCities;
         const place2 = cities[Math.floor(Math.random() * cities.length)];
         const city2Info = await getWeatherTemp(place2);
+        if (city2Info == null) {
+            alert("Error loading weather data, something is wrong with the API.");
+        }
 
         displayText(
             placeToString(place1).replace(",", ",<br/>"),
