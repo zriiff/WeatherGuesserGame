@@ -22,9 +22,9 @@ Then in your search engine, go to the website [localhost:8080](http://localhost:
 
 
 ## Troubleshooting
-Make sure to not rearange the contents of the website (js, assets, etc.)
-Be sure to run the terminal command while inside the directory containing index.html. It will not work if you try and run this from any other directory.
-If you keep getting an error that something is wrong with the API, then you can try getting your own key at [Open Weather](https://openweathermap.org/). Replace the key in the first line of the `js/weather_game.js` file.
+ - Make sure to not rearange the contents of the website (js, assets, etc.)
+ - Be sure to run the terminal command while inside the directory containing index.html. It will not work if you try and run this from any other directory.
+ - If you keep getting an error that something is wrong with the API, then you can try getting your own key at [Open Weather](https://openweathermap.org/). Replace the key in the first line of the `js/weather_game.js` file.
 
 ## Authors
 Zach Riiff
