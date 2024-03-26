@@ -1,3 +1,13 @@
+/*
+  Zach Riiff
+
+  Written independently using...
+
+  Sources
+    GeoNames - (https://www.geonames.org/ + https://download.geonames.org/export/dump/) - For the weather API
+    OpenWeather - (https://openweathermap.org/) - For the places.csv data
+ */
+
 const API_KEY = "5c26a30700394a02465c639499c61e42"
 const UNITS = "imperial"
 
