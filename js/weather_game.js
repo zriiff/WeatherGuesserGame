@@ -1,6 +1,4 @@
 /*
-  Zach Riiff
-
   Written independently using...
 
   Sources
@@ -39,14 +37,16 @@ function csvTextToList(text) {
     const lines = text.split("\n");
     const keys = lines[0].split(",");
     const data = lines.slice(1);
-    return data.map((line) => {
+    const csvList = []
+    for (let line of data) {
         const values = line.split(",");
         const dict = {}
-        keys.forEach((key, index) => {
-            dict[key.trim()] = values[index].replace("\r", "");
-        });
-        return dict;
-    });
+        for (let i = 0; i < keys.length; i ++) {
+            dict[keys[i].trim()] = values[i].replace("\r", "");
+        }
+        csvList.push(dict)
+    }
+    return csvList
 }
 
 async function getPlaces() {
@@ -191,12 +191,10 @@ async function playGame(c) {
         if (city2Info == null) {
             alert("Error loading weather data, something is wrong with the API.");
         }
-
         displayText(
             placeToString(place1).replace(",", ",<br/>"),
             placeToString(place2).replace(",", ",<br/>")
         );
-
         const num = await waitForUserInput();
         await animateGame(city1Info["temperature"], city2Info["temperature"])
         if (num === 1) {
