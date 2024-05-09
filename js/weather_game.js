@@ -67,6 +67,7 @@ function placeToString(place) {
     return place["city"] + ", " + place["country"];
 }
 
+/* Returns the current weather and temperature of a given place */
 async function getWeatherTemp(place) {
     try {
         const locationRequest = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${placeToString(place)}&limit=${1}&appid=${API_KEY}`);
