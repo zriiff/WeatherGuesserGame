@@ -8,8 +8,8 @@ I've always enjoyed symple online browser games, like the higher lower game. I d
 This code is available at [repository on github](https://github.com/zriiff) This can be cloned, downloaded as a zip file, or forked.
 
 ## Requirements
-Python 3
-A search engine
+* Python 3
+* A search engine
 
 ## Execution
 First run the following command while in the directory containing index.html
